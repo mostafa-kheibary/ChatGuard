@@ -1,14 +1,14 @@
 <script lang="ts">
-  import logo from "src/assets/icons/icon128.png";
+  import { goto } from "svelte-pathfinder";
   import Switch from "./Switch.svelte";
   import BrowserStorage from "src/utils/BrowserStorage";
   import { refreshPage } from "src/utils/refreshPage";
   import { onMount } from "svelte";
-  import { goto } from "svelte-pathfinder";
   import lockIcon from "../../../assets/icons/lock.svg";
   import infoIcon from "../../../assets/icons/info.svg";
   import githubLogo from "../../../assets/icons/github.svg";
   import xLogo from "../../../assets/icons/x.svg";
+  import logo from "src/assets/icons/icon128.png";
   import "@material/web/button/outlined-button";
   import "@material/web/iconbutton/icon-button";
   import { openLink } from "src/utils/openLink";
@@ -52,7 +52,7 @@
   <div class="main">
     <img width="80px" height="80px" src={logo} alt="logo" />
     <h1 class="title">Chat Guard</h1>
-    <Switch bind:value={enable} on:change={handleChangeCheckbox} />
+    <Switch bind:value={enable} onchange={handleChangeCheckbox} />
   </div>
 
   <div class="footer">

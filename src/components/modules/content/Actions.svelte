@@ -7,18 +7,16 @@
   import type { Contact } from "src/types/Config";
   import { wait } from "src/utils/wait";
   import Lock from "src/components/icon/Lock.svelte";
-  import Import from "src/components/icon/Import.svelte";
   import { useConfig } from "src/hooks/useConfig";
   import BrowserStorage from "src/utils/BrowserStorage";
-  import Cipher from "src/utils/Cipher";
 
-  export let id: string;
+  const { id }: { id: string } = $props();
 
-  let status: "safe" | "unsafe" = "unsafe";
-  let currentContact: null | Contact = null;
-  let isMenuOpen = false;
-  let openFromLeft = false;
-  let position = { left: 0, top: 0 };
+  let status: "safe" | "unsafe" = $state("unsafe");
+  let currentContact: null | Contact = $state(null);
+  let isMenuOpen = $state(false);
+  let openFromLeft = $state(false);
+  let position = $state({ left: 0, top: 0 });
 
   const { getSelector } = useConfig();
 
@@ -87,30 +85,44 @@
     LocalStorage.setMap(store.localStorageKey as string, $url.id, newContact);
     currentContact = newContact;
   };
+  const handlePreventsAllInteraction = (callback?: (e: any) => void) => {
+    return (e: Event) => {
+      e.preventDefault();
+      e.stopPropagation();
+      callback?.(e);
+    };
+  };
+  const handleStopPropagation = (callback?: (e: any) => void) => {
+    return (e: Event) => {
+      e.preventDefault();
+      e.stopPropagation();
+      callback?.(e);
+    };
+  };
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<div on:click|stopPropagation|preventDefault on:mousedown|stopPropagation|preventDefault {id} class="ctc_wrapper">
+<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions (because of reasons) -->
+<div onclick={handlePreventsAllInteraction()} onmousedown={handlePreventsAllInteraction()} {id} class="ctc_wrapper">
   <button
+    aria-label="click"
     class="ctc_button"
     data-menu-item="true"
     class:active={status === "safe" && currentContact?.enable}
-    on:click|stopPropagation|preventDefault={handleMenuClicked}>
+    onclick={handlePreventsAllInteraction(handleMenuClicked)}>
   </button>
   <div
-    on:click|stopPropagation
+    onclick={handleStopPropagation()}
     class="ctc_menu"
     style="{openFromLeft ? 'left' : 'right'}:{position.left}px;top:{position.top}px;"
     class:open={isMenuOpen}
     class:fromLeft={openFromLeft}>
     {#if status === "safe"}
-      <div on:click|stopPropagation={handleToggleConversation} data-menu-item="true" class="ctc_menu__item">
+      <div onclick={handleStopPropagation(handleToggleConversation)} data-menu-item="true" class="ctc_menu__item">
         <div class="ctc_radio" class:enable={currentContact?.enable}></div>
         <span>Encrypt messages</span>
       </div>
     {/if}
-    <div on:click|stopPropagation|preventDefault={handleSendHandshake} data-menu-item="true" class="ctc_menu__item">
+    <div onclick={handlePreventsAllInteraction(handleSendHandshake)} data-menu-item="true" class="ctc_menu__item">
       <Lock />
       <span>Send public key</span>
     </div>

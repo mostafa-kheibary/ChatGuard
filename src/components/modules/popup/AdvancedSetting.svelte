@@ -3,9 +3,6 @@
   import Cipher from "src/utils/Cipher";
   import { refreshPage } from "src/utils/refreshPage";
   import { onMount } from "svelte";
-  import importIcon from "../../../assets/icons/import.svg";
-  import resetIcon from "../../../assets/icons/reset.svg";
-  import exportIcon from "../../../assets/icons/export.svg";
 
   let error = "";
   let browserStore: IStorage | null = null;
@@ -95,7 +92,7 @@
   <div class="config">
     <h2 class="title">My credentials</h2>
     <md-outlined-button role="button" on:pointerup={resetChatGuardConfig} class="reset-button">
-      <img slot="icon" width="18px" src={resetIcon} alt="" />
+      <img slot="icon" width="18px" src={""} alt="" />
       Reset Everything
     </md-outlined-button>
     {#if error}

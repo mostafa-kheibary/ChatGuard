@@ -9,6 +9,7 @@ import { parseMessage } from "./scripts/messageParser";
 import { registerEventListener } from "./scripts/listeners";
 import { register } from "./scripts/register";
 import { useConfig } from "src/hooks/useConfig";
+import { mount } from "svelte";
 
 (async function main() {
   const store = await register();
@@ -22,11 +23,11 @@ import { useConfig } from "src/hooks/useConfig";
   const { onObserve: onRootObserver } = useObserver();
   const { render } = useRender();
   const { urlStore } = useUrl(idProvider);
-  if (import.meta.env.MODE !== "development") console.log(initLog);
+  console.log(initLog);
 
   render(getSelector("header"), (target, id) => {
     // Action Menu on the conversation header
-    new Actions({ target, props: { id } });
+    mount(Actions, { target, props: { id } });
   });
   // event listener for user action (type,click,sending message)
   registerEventListener(urlStore);

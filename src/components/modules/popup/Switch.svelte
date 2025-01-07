@@ -1,24 +1,24 @@
 <script lang="ts">
-  import { createEventDispatcher } from "svelte";
   import type { MdSwitch } from "@material/web/switch/switch";
 
-  export let value: string;
+  let { value = $bindable(), onchange } = $props();
 
-  let checked = true;
-  const dispatch = createEventDispatcher();
+  let checked = $state(true);
 
   function handleChange(event: InputEvent) {
     checked = (event.target as MdSwitch).selected;
     value = checked ? "on" : "off";
-    dispatch("change", value);
+    onchange("change", value);
   }
 
-  $: value === "on" ? (checked = true) : (checked = false);
+  $effect(() => {
+    value === "on" ? (checked = true) : (checked = false);
+  });
 </script>
 
 <div class="switch-container">
   <span>OFF</span>
-  <md-switch role="switch" aria-checked={checked} selected={checked} on:change={handleChange} />
+  <md-switch role="switch" aria-checked={checked} selected={checked} onchange={handleChange}> </md-switch>
   <span>ON</span>
 </div>
 

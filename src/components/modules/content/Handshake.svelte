@@ -4,16 +4,17 @@
   import LocalStorage from "src/utils/LocalStorage";
   import { wait } from "src/utils/wait";
   import { onMount } from "svelte";
+  import { get } from "svelte/store";
 
-  export let publicKey: string;
+  const { publicKey }: { publicKey: string } = $props();
 
-  let alreadyUsing = false;
+  let alreadyUsing = $state(false);
 
   const handleUseHandshake = async () => {
     const publicKeyArray = publicKey.split(" ");
     publicKeyArray.shift();
     const store = await BrowserStorage.get();
-    LocalStorage.setMap(store.localStorageKey as string, $url.id, {
+    LocalStorage.setMap(store.localStorageKey as string, get(url).id, {
       enable: true,
       publicKey: publicKeyArray.join(" "),
     });
@@ -36,7 +37,7 @@
 <div class="container">
   {publicKey}
   <div class="button-wrapper">
-    <button disabled={alreadyUsing} on:click={handleUseHandshake}>
+    <button disabled={alreadyUsing} onclick={handleUseHandshake}>
       {#if alreadyUsing}
         Already using
       {:else}

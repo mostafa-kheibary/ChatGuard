@@ -7,6 +7,7 @@ import { findFirstTextNode, findTargetRecursive } from "src/utils/findMessageTar
 import LocalStorage from "src/utils/LocalStorage";
 import { url } from "src/store/url.store";
 import { get } from "svelte/store";
+import { mount } from "svelte";
 
 export const parseMessage = async (messages: Element[], index: number, store: IStorage) => {
   const { getSelector } = useConfig();
@@ -27,7 +28,7 @@ export const parseMessage = async (messages: Element[], index: number, store: IS
     const parent = document.createElement("div");
     changeTextNode(target, "");
     words.shift();
-    new Handshake({ target: parent, props: { publicKey: words.join(" ") } });
+    mount(Handshake, { target: parent, props: { publicKey: words.join(" ") } });
     target.prepend(parent);
     target.setAttribute("handshake", "true");
     return;

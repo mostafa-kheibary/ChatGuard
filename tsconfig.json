@@ -1,17 +1,15 @@
 {
-  "extends": "@tsconfig/svelte/tsconfig.json",
   "compilerOptions": {
-    "target": "esnext",
-
-    "useDefineForClassFields": true,
-    "module": "esnext",
-    "resolveJsonModule": true,
-    "baseUrl": ".",
-    "allowJs": true,
-    "checkJs": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "lib": ["ESNext", "DOM"],
     "strict": true,
-    "isolatedModules": true
+    "esModuleInterop": true,
+    "verbatimModuleSyntax": true,
+    "moduleResolution": "bundler",
+    "outDir": "dist",
+    "baseUrl": "."
   },
-  "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.js", "src/**/*.svelte"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules/*"]
 }

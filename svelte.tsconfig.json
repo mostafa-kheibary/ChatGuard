@@ -1,0 +1,17 @@
+{
+  "extends": "@tsconfig/svelte/tsconfig.json",
+  "compilerOptions": {
+    "importHelpers": false,
+    "target": "es6",
+    "module": "esnext",
+    "verbatimModuleSyntax": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "baseUrl": ".",
+    "types": ["svelte", "@types/chrome"]
+  },
+  "include": ["src/**/*", "rollup.config.ts"],
+  "exclude": ["node_modules/*"]
+}

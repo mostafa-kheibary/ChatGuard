@@ -19,7 +19,6 @@ const getCurrentTimestamp = () => {
     .padStart(2, "0")}`;
 };
 const log = (message: any, style: string = "") => {
-  if (import.meta.env.MODE !== "development") return;
   if (typeof message === "string")
     return console.log(`%c[${getCurrentTimestamp()}] %c${message}`, timestampStyle, logStyle.concat(style));
 
