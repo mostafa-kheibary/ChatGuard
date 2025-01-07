@@ -14,21 +14,13 @@ import { defineConfig } from "rollup";
 const isProduction = process.env.NODE_ENV === "production";
 const platform = process.env.PLATFORM;
 
-const treeshakeConfig = {
-  moduleSideEffects: [
-    "@material/web/switch/switch",
-    "@material/web/button/filled-button",
-    "@material/web/button/elevated-button",
-  ],
-};
-
 export default async function () {
   const terser = isProduction ? (await import("@rollup/plugin-terser")).default : null;
 
   return defineConfig([
     {
       input: "src/view/popup.ts",
-      treeshake: treeshakeConfig,
+      treeshake: isProduction,
       output: {
         format: "iife",
         file: "dist/popup.js",
@@ -68,7 +60,7 @@ export default async function () {
         format: "iife",
         file: "dist/content.js",
       },
-      treeshake: treeshakeConfig,
+      treeshake: isProduction,
       plugins: [
         terser && terser(),
         alias({
