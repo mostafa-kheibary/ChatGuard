@@ -26,7 +26,6 @@ export default async function () {
         file: "dist/popup.js",
       },
       plugins: [
-        terser && terser(),
         alias({
           entries: [
             {
@@ -47,7 +46,7 @@ export default async function () {
         resolve({
           browser: true,
           exportConditions: ["svelte"],
-          extensions: [".svelte"],
+          extensions: [".svelte", ".js", ".mjs"],
         }),
         commonjs(),
         typescript({
@@ -84,7 +83,7 @@ export default async function () {
         resolve({
           browser: true,
           exportConditions: ["svelte"],
-          extensions: [".svelte"],
+          extensions: [".svelte", ".js", ".mjs"],
         }),
         commonjs(),
         typescript({
