@@ -14,19 +14,26 @@ import { defineConfig } from "rollup";
 const isProduction = process.env.NODE_ENV === "production";
 const platform = process.env.PLATFORM;
 
+const treeshakeConfig = {
+  moduleSideEffects: [
+    "@material/web/switch/switch",
+    "@material/web/button/filled-button",
+    "@material/web/button/elevated-button",
+  ],
+};
+
 export default async function () {
   const terser = isProduction ? (await import("@rollup/plugin-terser")).default : null;
 
   return defineConfig([
     {
       input: "src/view/popup.ts",
-      treeshake: isProduction,
+      treeshake: treeshakeConfig,
       output: {
         format: "iife",
         file: "dist/popup.js",
       },
       plugins: [
-        terser && terser(),
         alias({
           entries: [
             {
@@ -47,7 +54,7 @@ export default async function () {
         resolve({
           browser: true,
           exportConditions: ["svelte"],
-          extensions: [".svelte"],
+          extensions: [".svelte", ".js", ".mjs"],
         }),
         commonjs(),
         typescript({
@@ -61,7 +68,7 @@ export default async function () {
         format: "iife",
         file: "dist/content.js",
       },
-      treeshake: isProduction,
+      treeshake: treeshakeConfig,
       plugins: [
         terser && terser(),
         alias({
@@ -84,7 +91,7 @@ export default async function () {
         resolve({
           browser: true,
           exportConditions: ["svelte"],
-          extensions: [".svelte"],
+          extensions: [".svelte", ".js", ".mjs"],
         }),
         commonjs(),
         typescript({
