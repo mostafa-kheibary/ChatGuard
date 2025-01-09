@@ -27,7 +27,6 @@ export const parseMessage = async (messages: Element[], index: number, store: IS
     if (isHandshake) return;
     const parent = document.createElement("div");
     changeTextNode(target, "");
-    words.shift();
     mount(Handshake, { target: parent, props: { publicKey: words.join(" ") } });
     target.prepend(parent);
     target.setAttribute("handshake", "true");
